@@ -4,10 +4,7 @@ const connection = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "uthe@rakh1Q",
-    database: "facebook",
-    waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0,
+    database: "invoice_store",
     namedPlaceholders: true
 });
 

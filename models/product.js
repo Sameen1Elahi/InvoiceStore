@@ -1,14 +1,14 @@
 async function addProduct(res,payload){
-
+    
     const {productName, price, remainingQty} = payload;
-    let connection = res.connection;
+    let connection = res.connection1;
     try{
         const sqlObject = {product_name:productName, price:price, remaining_qty:remainingQty}
         const columns = Object.keys(sqlObject).join(', '); 
         const placeholders = Object.keys(sqlObject).map(() => '?').join(', '); 
         const values = Object.values(sqlObject); 
 
-        const sql = `INSERT INTO products ${columns} values ${placeholders}`;
+        const sql = `INSERT INTO products (${columns}) VALUES (${placeholders})`;
         const [result] = await (await connection).execute(sql,values);
         return result;
     }
