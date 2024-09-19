@@ -7,7 +7,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 
 const connection = require('./models/connection.js');
 const {addProduct} = require('./models/product.js');
-const {addCustomer,addInvoice} = require('./models/customer.js');
+const {addUser,addInvoice} = require('./models/customer.js');
 
 
 const buildconnection = async (req,res,next)=>{
@@ -33,11 +33,11 @@ app.post('/add-product',async (req,res)=>{
     }
 })
 
-//add the customer in database
-app.post('/add-customer',async (req,res)=>{
-    const {name,noOfInvoices} = req.body;
+//add the user in database
+app.post('/add-user',async (req,res)=>{
+    const {name,email} = req.body;
     try{
-        const result = await addCustomer(res,{name,noOfInvoices});
+        const result = await addUser(res,{name,email});
         res.send(result);
     }
     catch(error){
@@ -47,15 +47,29 @@ app.post('/add-customer',async (req,res)=>{
 
 //add the invoice 
 app.post('/add-invoice',async (req,res)=>{
-    const {name,noOfInvoices} = req.body;
+    const {madeBy, productId, quantity} = req.body;
     try{
-        const result = await addInvoice(res,{name,noOfInvoices});
+        const result = await addInvoice(res,{madeBy, productId, quantity});
         res.send(result);
     }
     catch(error){
-        res.status(500).send("Error while entering the product");
+        res.status(500).send("Error while entering the invoice");
     }
 })
+
+
+app.post('/payment',async (req,res)=>{
+    const {byCash, byCard} = req.body;
+    try{
+        const result = await payment(res,{byCash, byCard});
+        res.send(result);
+    }
+    catch(error){
+        res.status(500).send("Error during payment");
+    }
+})
+
+
 
 app.listen(8080,()=>{
     console.log("Listen to port 8080");
