@@ -1,5 +1,5 @@
+// add the products in store database
 async function addProduct(res,payload){
-    
     const {productName, price, remainingQty} = payload;
     let connection = res.connection1;
     try{
@@ -15,8 +15,21 @@ async function addProduct(res,payload){
     catch(error){
         console.log("Error executing query");
         throw error;
-
     }
 }
 
-module.exports = {addProduct};
+// see all the products in database
+async function seeProducts(res){
+    let connection = res.connection1;
+    try{
+        const sql = `SELECT * FROM products`;
+        const [result] = await (await connection).execute(sql);
+        return result;
+    }
+    catch(error){
+        console.log("Error executing query");
+        throw error;
+    }
+}
+
+module.exports = {addProduct,seeProducts};
